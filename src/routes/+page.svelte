@@ -1,4 +1,14 @@
 <script lang="ts">
+
+/* This program is free software: you can redistribute it and/or modify
+ *  it under CC0 1.0 public domain license. 
+ *  https://creativecommons.org/publicdomain/zero/1.0/
+ *
+ *  This program is distributed in the hope that it will be useful to learn 
+ *  from, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ */
+ 
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
