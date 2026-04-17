@@ -65,14 +65,15 @@
 <div id="print-root" class="mx-auto max-w-6xl space-y-8 p-6">
   <header class="space-y-2">
     <h1 class="text-3xl font-bold">
-      Locality Income Tax Calculator for Non-Resident
+      Pretend Locality Income Tax Calculator (for Non-Resident)
     </h1>
     <p class="text-muted-foreground">
       An example, simplistic, Javascript application to estimate city income tax 
       for an unamed locality, based on the number of days you worked
-      inside city limits.  This is a demonstration only and not meant for tax
-      preparation!  
+      inside city limits.  
     </p>
+    <h2><em>This is a demonstration only and not meant for tax
+      preparation!</em></h2>
     <Separator />
     <div class="space-y-1 text-sm text-muted-foreground">
       <p class="text-muted-foreground">Formula used: </p>
@@ -92,7 +93,7 @@
     <div class="space-y-6">
       <Card class="input-card">  <!-- class="lg:sticky lg:top-6" -->
         <CardHeader>
-          <CardTitle>Work days</CardTitle>
+          <CardTitle><h2>Work days</h2></CardTitle>
         </CardHeader>
 
         <CardContent class="space-y-6">
@@ -133,7 +134,7 @@
 
       <Card class="input-card"> <!-- class="lg:sticky lg:top-6" -->
           <CardHeader>
-            <CardTitle>Your Information</CardTitle>
+            <CardTitle><h2>Your Information</h2></CardTitle>
           </CardHeader>
           <CardContent class="space-y-6">
           <!-- PTO -->
@@ -188,7 +189,7 @@
 
     <Card id="results">
       <CardHeader>
-        <CardTitle>Calculated Tax</CardTitle>
+        <CardTitle><h2>Calculated Tax</h2></CardTitle>
       </CardHeader>
 
     

@@ -1,4 +1,4 @@
-# Locality Tax Calculator
+# Pretend Locality Tax Calculator
 
 ## about
 
