@@ -42,9 +42,13 @@ pnpx shadcn-svelte@latest add input label card separator
 The styles were mostly picked from one the options the `init` command above
 shows. 
 
+## Wanna see 
+
+https://billspat.github.io/locality_tax_calc/
+
 ## License
 
-This calculation is probably incorrect and should not be used.  But this is
+This calculation is probably incorrect and should not be used. But this is
 provided with no restrictions at all and no guarantees. 
 
 ---
