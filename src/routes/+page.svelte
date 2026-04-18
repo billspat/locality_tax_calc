@@ -1,6 +1,7 @@
 <script lang="ts">
   import TablerCard from '$lib/components/TablerCard.svelte';
   import FormInputField from '$lib/components/FormInputField.svelte';
+  import DataGridItem from '$lib/components/DataGridItem.svelte';
 
 /* This program is free software: you can redistribute it and/or modify
  *  it under CC0 1.0 public domain license. 
@@ -176,33 +177,26 @@
             />
 
             <div class="datagrid mt-4">
-              <div class="datagrid-item">
-                <div class="datagrid-title">Available Work Days</div>
-                <div class="datagrid-content"><strong>{workableDays}</strong></div>
-              </div>
+              <DataGridItem title="Available Work Days">
+                <strong>{workableDays}</strong>
+              </DataGridItem>
 
-              <div class="datagrid-item">
-                <div class="datagrid-title">Taxable Percentage ({daysWorkedInCity}/{workableDays})</div>
-                <div class="datagrid-content"><strong>{(taxablePercentage * 100).toFixed(2)}%</strong></div>
-              </div>
+              <DataGridItem title={`Taxable Percentage (${daysWorkedInCity}/${workableDays})`}>
+                <strong>{(taxablePercentage * 100).toFixed(2)}%</strong>
+              </DataGridItem>
 
-              <div class="datagrid-item">
-                <div class="datagrid-title">Taxable Wages</div>
-                <div class="datagrid-content"><strong>${taxableWages.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong></div>
-              </div>
+              <DataGridItem title="Taxable Wages">
+                <strong>${taxableWages.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
+              </DataGridItem>
 
-              <div class="datagrid-item">
-                <div class="datagrid-title">Deduction</div>
-                <div class="datagrid-content"><strong>${deduction}</strong></div>
-              </div>
+              <DataGridItem title="Deduction">
+                <strong>${deduction}</strong>
+              </DataGridItem>
 
-              <div class="datagrid-item">
-                <div class="datagrid-title">Locality Tax Owed</div>
-                <div class="datagrid-content">
+              <DataGridItem title="Locality Tax Owed">
                   <span class="h2 mb-0">${taxOwed.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                   <p class="text-secondary fst-italic mt-1">this year at non-resident tax rate {taxRate * 100}%</p>
-                </div>
-              </div>
+              </DataGridItem>
             </div>
 
         </TablerCard>
