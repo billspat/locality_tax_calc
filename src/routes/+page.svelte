@@ -8,11 +8,6 @@
  *  from, but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
  */
- 
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
-  import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
-  import { Separator } from "$lib/components/ui/separator";
 
   // ---------------------------
   // Inputs (Svelte 5 runes)
@@ -62,240 +57,179 @@
 
 </script>
 
-<div id="print-root" class="mx-auto max-w-6xl space-y-8 p-6">
-  <header class="space-y-2">
-    <h1 class="text-3xl font-bold">
-      Pretend Locality Income Tax Calculator (for Non-Resident)
-    </h1>
-    <p class="text-muted-foreground">
-      An example, simplistic, Javascript application to estimate city income tax 
-      for an unamed locality, based on the number of days you worked
-      inside city limits.  
-    </p>
-    <h2><em>This is a demonstration only and not meant for tax
-      preparation!</em></h2>
-    <Separator />
-    <div class="space-y-1 text-sm text-muted-foreground">
-      <p class="text-muted-foreground">Formula used: </p>
-      <code class="bg-muted block rounded-md p-3">
-            Tax = [ Wages * (Days Worked in City ÷ (Total Work Days - Holidays - PTO)) - Deduction ] * Tax Rate
+<div id="print-root" class="page-body">
+  <div class="container-xl">
+
+    <!-- Header -->
+    <div class="page-header d-print-block">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="page-title">
+            Pretend Locality Income Tax Calculator (for Non-Resident)
+          </h1>
+          <p class="text-secondary mt-1">
+            An example, simplistic, Javascript application to estimate city income tax 
+            for an unnamed locality, based on the number of days you worked
+            inside city limits.  
+          </p>
+          <h2 class="mt-2"><em>This is a demonstration only and not meant for tax
+            preparation!</em></h2>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="mb-4">
+      <p class="text-secondary">Formula used:</p>
+      <code class="formula-code">
+        Tax = [ Wages * (Days Worked in City &divide; (Total Work Days - Holidays - PTO)) - Deduction ] * Tax Rate
       </code>
-      <p class="text-muted-foreground italic">In this example, the tax is calculated 
+      <p class="text-secondary fst-italic mt-2">
+        In this example, the tax is calculated 
         based on the proportion of days worked within the city limits relative 
         to the total work days available. This is based on an actual formula for 
         a locality tax, where taking more sick or vacation days will increase your tax, 
-        which is illogical since most likley you are not present in the locality on those days. 
+        which is illogical since most likely you are not present in the locality on those days. 
       </p>
     </div>
-  </header>
 
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
-    <div class="space-y-6">
-      <Card class="input-card">  <!-- class="lg:sticky lg:top-6" -->
-        <CardHeader>
-          <CardTitle><h2>Work days</h2></CardTitle>
-        </CardHeader>
+    <!-- Main Grid -->
+    <div class="row g-3">
 
-        <CardContent class="space-y-6">
-          <!-- Year -->
-          <div class="grid gap-2">
-            <Label for="year">
-              Tax Year
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Calendar year for which the tax is being calculated.
-            </p>
-            <Input id="year" type="number" class="sm:max-w-xs" bind:value={year} />
+      <!-- Left Column: Input Cards -->
+      <div class="col-lg-5">
+
+        <!-- Work Days Card -->
+        <div class="card input-card mb-3">
+          <div class="card-header">
+            <h3 class="card-title">Work Days</h3>
           </div>
-
-          <!-- Total Work Days -->
-          <div class="grid gap-2">
-            <Label>
-              Total Possible Work Days
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Total standard workdays in the year (typically 261 for a 5-day work week).
-            </p>
-            <Input type="number" class="sm:max-w-xs" bind:value={totalWorkDays} />
-          </div>
-
-          <!-- Holidays -->
-          <div class="grid gap-2">
-            <Label>
-              Paid Holidays
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Employer-paid holidays when no work was performed.
-            </p>
-            <Input type="number" class="sm:max-w-xs" bind:value={holidays} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card class="input-card"> <!-- class="lg:sticky lg:top-6" -->
-          <CardHeader>
-            <CardTitle><h2>Your Information</h2></CardTitle>
-          </CardHeader>
-          <CardContent class="space-y-6">
-          <!-- PTO -->
-          <div class="grid gap-2">
-            <Label>
-              Paid Time Off (PTO)
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Vacation, sick leave, or other paid leave days.
-            </p>
-            <Input type="number" class="sm:max-w-xs" bind:value={ptoDays} />
-          </div>
-
-          <!-- Days Worked in City -->
-          <div class="grid gap-2">
-            <Label>
-              Days Worked in City Limits
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Number of days you were physically present and working inside
-              taxation zone.
-            </p>
-            <Input type="number" class="sm:max-w-xs" bind:value={daysWorkedInCity} />
-          </div>
-
-          <!-- Wages -->
-          <div class="grid gap-2">
-            <Label>
-              Wages
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              Federal W-2 Box 1 wages for the year.
-            </p>
-            <Input type="number" step="1000" class="sm:max-w-xs" bind:value={totalWages} />
-          </div>
-
-          <!--   let deductible = $derived(deductions * standardDeductible); -->
-          <!-- deductible -->
-          <div class="grid gap-2">
-            <Label>
-              Deductions
-            </Label>
-            <p class="text-sm text-muted-foreground">
-              you, your spouse (if filing jointly, dependents
-            </p>
-            <Input type="number" step="1" class="sm:max-w-xs" bind:value={deductions} />
-          </div>
-
-        </CardContent>
-      </Card>
-    </div>
-
-    <Card id="results">
-      <CardHeader>
-        <CardTitle><h2>Calculated Tax</h2></CardTitle>
-      </CardHeader>
-
-    
-      <CardContent class="space-y-4">
-        <div class="grid gap-2">
-          <Label>
-            Locality Tax Rate ( Non-Resident )
-            <span class="text-sm text-muted-foreground">{taxRatePercent.toFixed(1)}%</span>
-          </Label>      
-          <Input class="sm:max-w-xs" bind:value={taxRate} />
-       </div> 
-
-        <div class="space-y-4 text-sm">
-          <div>
-            Availble Work Days:
-            <strong>{workableDays}</strong>
-          </div>
-
-          <div>
-            Taxable Percentage ({daysWorkedInCity}/{workableDays}):
-            <strong>{(taxablePercentage * 100).toFixed(2)}%</strong>
-          </div>
-
-          <div>
-            Taxable Wages:
-            <strong>${taxableWages.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
-          </div>
-
-          <div>
-            Deduction: 
-            <strong>${deduction}</strong>
-          </div>
-
-          <div>
-            Locality Tax Owed :
-            <span class="text-xl font-semibold">
-              <strong>${taxOwed.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
-            </span>
-            <p class="text-sm text-muted-foreground italic">this year at non-resident tax rate {taxRate * 100}%</p>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label" for="year">Tax Year</label>
+              <p class="form-text">
+                Calendar year for which the tax is being calculated.
+              </p>
+              <input id="year" type="number" class="form-control" style="max-width: 16rem;" bind:value={year} />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="totalWorkDays">Total Possible Work Days</label>
+              <p class="form-text">
+                Total standard workdays in the year (typically 261 for a 5-day work week).
+              </p>
+              <input id="totalWorkDays" type="number" class="form-control" style="max-width: 16rem;" bind:value={totalWorkDays} />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="holidays">Paid Holidays</label>
+              <p class="form-text">
+                Employer-paid holidays when no work was performed.
+              </p>
+              <input id="holidays" type="number" class="form-control" style="max-width: 16rem;" bind:value={holidays} />
+            </div>
           </div>
         </div>
 
-      </CardContent>
-    </Card>
-  </div>
-  <footer>
-    <div class="grid gap-2">
-      <Separator/>
-      <p class="text-sm text-muted-foreground">
-        Created as a way to get started with <a class="link" href="https://svelte.dev" target="_blank" rel="noopener noreferrer">Svelte</a>,
-        <a class="link" href="https://tailwindcss.com" target="_blank"  >Tailwind CSS</a>, and 
-        <a class="link" href="https://www.shadcn.com/svelte" target="_blank" rel="noopener noreferrer">Shadcn-svelte components</a>
-    </p>
+        <!-- Your Information Card -->
+        <div class="card input-card mb-3">
+          <div class="card-header">
+            <h3 class="card-title">Your Information</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label" for="ptoDays">Paid Time Off (PTO)</label>
+              <p class="form-text">
+                Vacation, sick leave, or other paid leave days.
+              </p>
+              <input id="ptoDays" type="number" class="form-control" style="max-width: 16rem;" bind:value={ptoDays} />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="daysWorkedInCity">Days Worked in City Limits</label>
+              <p class="form-text">
+                Number of days you were physically present and working inside
+                taxation zone.
+              </p>
+              <input id="daysWorkedInCity" type="number" class="form-control" style="max-width: 16rem;" bind:value={daysWorkedInCity} />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="totalWages">Wages</label>
+              <p class="form-text">
+                Federal W-2 Box 1 wages for the year.
+              </p>
+              <input id="totalWages" type="number" step="1000" class="form-control" style="max-width: 16rem;" bind:value={totalWages} />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="deductions">Deductions</label>
+              <p class="form-text">
+                You, your spouse (if filing jointly), dependents.
+              </p>
+              <input id="deductions" type="number" step="1" class="form-control" style="max-width: 16rem;" bind:value={deductions} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Results Card -->
+      <div class="col-lg-7">
+        <div class="card" id="results">
+          <div class="card-header">
+            <h3 class="card-title">Calculated Tax</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label" for="taxRate">
+                Locality Tax Rate (Non-Resident)
+                <span class="text-secondary ms-1">{taxRatePercent.toFixed(1)}%</span>
+              </label>
+              <input id="taxRate" class="form-control" style="max-width: 16rem;" bind:value={taxRate} />
+            </div>
+
+            <div class="datagrid mt-4">
+              <div class="datagrid-item">
+                <div class="datagrid-title">Available Work Days</div>
+                <div class="datagrid-content"><strong>{workableDays}</strong></div>
+              </div>
+
+              <div class="datagrid-item">
+                <div class="datagrid-title">Taxable Percentage ({daysWorkedInCity}/{workableDays})</div>
+                <div class="datagrid-content"><strong>{(taxablePercentage * 100).toFixed(2)}%</strong></div>
+              </div>
+
+              <div class="datagrid-item">
+                <div class="datagrid-title">Taxable Wages</div>
+                <div class="datagrid-content"><strong>${taxableWages.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong></div>
+              </div>
+
+              <div class="datagrid-item">
+                <div class="datagrid-title">Deduction</div>
+                <div class="datagrid-content"><strong>${deduction}</strong></div>
+              </div>
+
+              <div class="datagrid-item">
+                <div class="datagrid-title">Locality Tax Owed</div>
+                <div class="datagrid-content">
+                  <span class="h2 mb-0">${taxOwed.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                  <p class="text-secondary fst-italic mt-1">this year at non-resident tax rate {taxRate * 100}%</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
-  </footer>
+
+    <!-- Footer -->
+    <footer class="mt-4">
+      <hr />
+      <p class="text-secondary">
+        Created as a way to get started with <a href="https://svelte.dev" target="_blank" rel="noopener noreferrer">Svelte</a>,
+        <a href="https://getbootstrap.com" target="_blank" rel="noopener noreferrer">Bootstrap</a>, and 
+        <a href="https://tabler.io" target="_blank" rel="noopener noreferrer">Tabler UI</a>.
+      </p>
+    </footer>
+
+  </div>
 </div>
-
-<style>
-
-  .link {
-    color: #3b82f6;
-    text-decoration: underline;
-
-  }
-
-  @media print {
-    /* Compact outer wrapper */
-    :global(#print-root) {
-      padding: 0.5rem;
-      max-width: 100%;
-    }
-    :global(#print-root > * + *) {
-      margin-top: 0.5rem;
-    }
-    :global(h1) {
-      font-size: 1.2rem;
-    }
-
-    /* Hide input helper/description text and separators */
-    :global(.input-card .grid p),
-    :global([data-slot="separator"]) {
-      display: none;
-    }
-
-    /* Two-column layout for the input fields */
-    :global(.input-card [data-slot="card-content"]) {
-      columns: 2;
-      column-gap: 1.5rem;
-      padding: 0.75rem;
-    }
-    :global(.input-card [data-slot="card-content"] > * + *) {
-      margin-top: 0.4rem;
-    }
-    :global(.input-card .grid) {
-      break-inside: avoid;
-    }
-
-    /* Tighten results card padding */
-    :global([data-slot="card-content"]) {
-      padding: 0.75rem;
-    }
-
-    /* Prevent cards from splitting across pages */
-    :global([data-slot="card"]) {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-  }
-</style>

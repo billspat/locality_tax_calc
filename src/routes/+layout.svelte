@@ -4,7 +4,8 @@
 	let { children } = $props();
 </script>
 
-<svelte:head>
-
-</svelte:head>
-{@render children()}
+<div class="page">
+	<div class="page-wrapper">
+		{@render children()}
+	</div>
+</div>
