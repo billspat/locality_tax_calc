@@ -1,4 +1,6 @@
 <script lang="ts">
+  import TablerCard from '$lib/components/TablerCard.svelte';
+  import FormInputField from '$lib/components/FormInputField.svelte';
 
 /* This program is free software: you can redistribute it and/or modify
  *  it under CC0 1.0 public domain license. 
@@ -101,89 +103,77 @@
       <div class="col-lg-5">
 
         <!-- Work Days Card -->
-        <div class="card input-card mb-3">
-          <div class="card-header">
-            <h3 class="card-title">Work Days</h3>
-          </div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label class="form-label" for="year">Tax Year</label>
-              <p class="form-text">
-                Calendar year for which the tax is being calculated.
-              </p>
-              <input id="year" type="number" class="form-control" style="max-width: 16rem;" bind:value={year} />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="totalWorkDays">Total Possible Work Days</label>
-              <p class="form-text">
-                Total standard workdays in the year (typically 261 for a 5-day work week).
-              </p>
-              <input id="totalWorkDays" type="number" class="form-control" style="max-width: 16rem;" bind:value={totalWorkDays} />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="holidays">Paid Holidays</label>
-              <p class="form-text">
-                Employer-paid holidays when no work was performed.
-              </p>
-              <input id="holidays" type="number" class="form-control" style="max-width: 16rem;" bind:value={holidays} />
-            </div>
-          </div>
-        </div>
+        <TablerCard title="Work Days" class="input-card mb-3">
+            <FormInputField
+              label="Tax Year"
+              formText="Calendar year for which the tax is being calculated."
+              inputId="year"
+              type="number"
+              bind:value={year}
+            />
+            <FormInputField
+              label="Total Possible Work Days"
+              formText="Total standard workdays in the year (typically 261 for a 5-day work week)."
+              inputId="totalWorkDays"
+              type="number"
+              bind:value={totalWorkDays}
+            />
+            <FormInputField
+              label="Paid Holidays"
+              formText="Employer-paid holidays when no work was performed."
+              inputId="holidays"
+              type="number"
+              bind:value={holidays}
+            />
+        </TablerCard>
 
         <!-- Your Information Card -->
-        <div class="card input-card mb-3">
-          <div class="card-header">
-            <h3 class="card-title">Your Information</h3>
-          </div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label class="form-label" for="ptoDays">Paid Time Off (PTO)</label>
-              <p class="form-text">
-                Vacation, sick leave, or other paid leave days.
-              </p>
-              <input id="ptoDays" type="number" class="form-control" style="max-width: 16rem;" bind:value={ptoDays} />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="daysWorkedInCity">Days Worked in City Limits</label>
-              <p class="form-text">
-                Number of days you were physically present and working inside
-                taxation zone.
-              </p>
-              <input id="daysWorkedInCity" type="number" class="form-control" style="max-width: 16rem;" bind:value={daysWorkedInCity} />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="totalWages">Wages</label>
-              <p class="form-text">
-                Federal W-2 Box 1 wages for the year.
-              </p>
-              <input id="totalWages" type="number" step="1000" class="form-control" style="max-width: 16rem;" bind:value={totalWages} />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="deductions">Deductions</label>
-              <p class="form-text">
-                You, your spouse (if filing jointly), dependents.
-              </p>
-              <input id="deductions" type="number" step="1" class="form-control" style="max-width: 16rem;" bind:value={deductions} />
-            </div>
-          </div>
-        </div>
+        <TablerCard title="Your Information" class="input-card mb-3">
+            <FormInputField
+              label="Paid Time Off (PTO)"
+              formText="Vacation, sick leave, or other paid leave days."
+              inputId="ptoDays"
+              type="number"
+              bind:value={ptoDays}
+            />
+            <FormInputField
+              label="Days Worked in City Limits"
+              formText="Number of days you were physically present and working inside taxation zone."
+              inputId="daysWorkedInCity"
+              type="number"
+              bind:value={daysWorkedInCity}
+            />
+            <FormInputField
+              label="Wages"
+              formText="Federal W-2 Box 1 wages for the year."
+              inputId="totalWages"
+              type="number"
+              step="1000"
+              bind:value={totalWages}
+            />
+            <FormInputField
+              label="Deductions"
+              formText="You, your spouse (if filing jointly), dependents."
+              inputId="deductions"
+              type="number"
+              step="1"
+              bind:value={deductions}
+            />
+        </TablerCard>
 
       </div>
 
       <!-- Right Column: Results Card -->
       <div class="col-lg-7">
-        <div class="card" id="results">
-          <div class="card-header">
-            <h3 class="card-title">Calculated Tax</h3>
-          </div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label class="form-label" for="taxRate">
-                Locality Tax Rate (Non-Resident)
-                <span class="text-secondary ms-1">{taxRatePercent.toFixed(1)}%</span>
-              </label>
-              <input id="taxRate" class="form-control" style="max-width: 16rem;" bind:value={taxRate} />
-            </div>
+        <TablerCard title="Calculated Tax" id="results">
+            <FormInputField
+              label={`Locality Tax Rate (Non-Resident) ${taxRatePercent.toFixed(1)}%`}
+              formText="Enter as decimal (for example, 0.005 for 0.5%)."
+              inputId="taxRate"
+              type="number"
+              step="0.001"
+              bind:value={taxRate}
+            />
 
             <div class="datagrid mt-4">
               <div class="datagrid-item">
@@ -215,8 +205,7 @@
               </div>
             </div>
 
-          </div>
-        </div>
+        </TablerCard>
       </div>
 
     </div>
