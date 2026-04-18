@@ -1,4 +1,20 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
-export default defineConfig({ plugins: [sveltekit()] });
+/// <reference types="vitest/config" />
+
+export default defineConfig({
+     plugins: [sveltekit()],
+
+     test: {
+        // 1. Explicitly define test files (where describe/test lives)
+        include: ['test/*.{test,spec}.ts', 'test/*.{test,spec}.js'], 
+	},
+
+    resolve: process.env.VITEST
+		? {
+				conditions: ['browser']
+			}
+		: undefined
+    
+});
