@@ -8,7 +8,7 @@ export default defineConfig({
 
      test: {
         // 1. Explicitly define test files (where describe/test lives)
-        include: ['test/*.{test,spec}.ts', 'test/*.{test,spec}.js'], 
+        include: ['test/*.{test,spec}.{ts,js}'], 
 	},
 
     resolve: process.env.VITEST
