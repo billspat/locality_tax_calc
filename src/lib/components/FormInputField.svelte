@@ -24,7 +24,7 @@
 
 <div class="mb-3">
 	<label class="form-label" for={inputId}>{label}</label>
-	<p class="form-text">{formText}</p>
+	<p class="form-text" style="white-space: pre-line;">{@html formText}</p>
 	<input
 		id={inputId}
 		type={type}

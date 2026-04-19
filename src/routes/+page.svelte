@@ -29,6 +29,50 @@
   let standardDeductible = 600;
   let taxRatePercent = $derived(taxRate * 100);
 
+  function toNumber(value: unknown, fallback = 0): number {
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) ? numericValue : fallback;
+  }
+
+  function clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function clampToNonNegative(value: unknown): number {
+    return Math.max(0, toNumber(value));
+  }
+
+  const maxTotalWorkDays = $derived(Math.max(0, 365 - holidays));
+  const maxDaysWorkedInCity = $derived(Math.max(0, totalWorkDays - holidays));
+
+  function setTotalWages(value: unknown): void {
+    totalWages = clampToNonNegative(value);
+  }
+
+  function setTotalWorkDays(value: unknown): void {
+    totalWorkDays = clamp(toNumber(value), 0, maxTotalWorkDays);
+    daysWorkedInCity = clamp(toNumber(daysWorkedInCity), 0, Math.max(0, totalWorkDays - holidays));
+  }
+
+  function setHolidays(value: unknown): void {
+    holidays = clampToNonNegative(value);
+    totalWorkDays = clamp(toNumber(totalWorkDays), 0, Math.max(0, 365 - holidays));
+    daysWorkedInCity = clamp(toNumber(daysWorkedInCity), 0, Math.max(0, totalWorkDays - holidays));
+  }
+
+  function setPtoDays(value: unknown): void {
+    ptoDays = clampToNonNegative(value);
+  }
+
+  function setDaysWorkedInCity(value: unknown): void {
+    daysWorkedInCity = clamp(toNumber(value), 0, maxDaysWorkedInCity);
+  }
+
+  function setDeductions(value: unknown): void {
+    const normalizedDeductions = Math.trunc(toNumber(value, 1));
+    deductions = clamp(normalizedDeductions, 1, 20);
+  }
+
 
   // ---------------------------
   // Derived values
@@ -114,17 +158,28 @@
             />
             <FormInputField
               label="Total Possible Work Days"
-              formText="Total standard workdays in the year (typically 261 for a 5-day work week)."
+              formText={`Total standard workdays in the year (typically 261 for a 5-day work week).<br /><em><em> Enter a value from 0 to ${maxTotalWorkDays} days (365 minus holidays).</em></em>`}
               inputId="totalWorkDays"
               type="number"
-              bind:value={totalWorkDays}
+              min="0"
+              max={maxTotalWorkDays}
+              step="1"
+              bind:value={
+                () => totalWorkDays,
+                setTotalWorkDays
+              }
             />
             <FormInputField
               label="Paid Holidays"
-              formText="Employer-paid holidays when no work was performed."
+              formText="Employer-paid holidays when no work was performed.<br /><em>Enter 0 or more days.</em>"
               inputId="holidays"
               type="number"
-              bind:value={holidays}
+              min="0"
+              step="1"
+              bind:value={
+                () => holidays,
+                setHolidays
+              }
             />
         </TablerCard>
 
@@ -132,33 +187,53 @@
         <TablerCard title="Your Information" class="input-card mb-3">
             <FormInputField
               label="Paid Time Off (PTO)"
-              formText="Vacation, sick leave, or other paid leave days."
+              formText="Vacation, sick leave, or other paid leave days.<br /><em>Enter 0 or more days.</em>"
               inputId="ptoDays"
               type="number"
-              bind:value={ptoDays}
+              min="0"
+              step="1"
+              bind:value={
+                () => ptoDays,
+                setPtoDays
+              }
             />
             <FormInputField
               label="Days Worked in City Limits"
-              formText="Number of days you were physically present and working inside taxation zone."
+              formText={`Number of days you were physically present and working inside taxation zone.<br /><em> Enter a value from 0 to ${maxDaysWorkedInCity} days (total work days minus holidays).</em>`}
               inputId="daysWorkedInCity"
               type="number"
-              bind:value={daysWorkedInCity}
+              min="0"
+              max={maxDaysWorkedInCity}
+              step="1"
+              bind:value={
+                () => daysWorkedInCity,
+                setDaysWorkedInCity
+              }
             />
             <FormInputField
               label="Wages"
-              formText="Federal W-2 Box 1 wages for the year."
+              formText="Federal W-2 Box 1 wages for the year.<br /><em>Enter 0 or more dollars.</em>"
               inputId="totalWages"
               type="number"
+              min="0"
               step="1000"
-              bind:value={totalWages}
+              bind:value={
+                () => totalWages,
+                setTotalWages
+              }
             />
             <FormInputField
               label="Deductions"
-              formText="You, your spouse (if filing jointly), dependents."
+              formText="You, your spouse (if filing jointly), dependents.<br /><em>Enter a whole number from 1 to 20.</em>"
               inputId="deductions"
               type="number"
+              min="1"
+              max="20"
               step="1"
-              bind:value={deductions}
+              bind:value={
+                () => deductions,
+                setDeductions
+              }
             />
         </TablerCard>
 
