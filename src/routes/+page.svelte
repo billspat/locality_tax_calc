@@ -2,6 +2,7 @@
   import TablerCard from '$lib/components/TablerCard.svelte';
   import FormInputField from '$lib/components/FormInputField.svelte';
   import DataGridItem from '$lib/components/DataGridItem.svelte';
+  import {toNumber, clamp, clampToNonNegative} from '$lib/numberfuns';
 
 /* This program is free software: you can redistribute it and/or modify
  *  it under CC0 1.0 public domain license. 
@@ -28,19 +29,6 @@
   let deductions = $state(1);
   let standardDeductible = 600;
   let taxRatePercent = $derived(taxRate * 100);
-
-  function toNumber(value: unknown, fallback = 0): number {
-    const numericValue = Number(value);
-    return Number.isFinite(numericValue) ? numericValue : fallback;
-  }
-
-  function clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
-  }
-
-  function clampToNonNegative(value: unknown): number {
-    return Math.max(0, toNumber(value));
-  }
 
   const maxTotalWorkDays = $derived(Math.max(0, 365 - holidays));
   const maxDaysWorkedInCity = $derived(Math.max(0, totalWorkDays - holidays));
